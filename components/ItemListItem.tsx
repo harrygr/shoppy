@@ -2,6 +2,7 @@ import * as React from "react";
 
 import type { ShoppingItem } from "@prisma/client";
 import { useRouter } from "next/router";
+import { TrashIcon } from "./TrashIcon";
 
 interface Props {
   item: Pick<ShoppingItem, "id" | "name" | "completed">;
@@ -91,7 +92,7 @@ export const ItemListItem: React.FC<Props> = ({ item }) => {
       />
 
       <button onClick={() => deleteItem(item.id)} title="Delete item">
-        <i className="w-4 h-4 inline" /> D
+        <TrashIcon className="w-4 h-4 inline" />
       </button>
     </li>
   );

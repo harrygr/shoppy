@@ -1,5 +1,6 @@
 import { useRouter } from "next/router";
 import * as React from "react";
+import { PlusIcon } from "./PlusIcon";
 
 export const ItemInput: React.FC = () => {
   const router = useRouter();
@@ -35,7 +36,7 @@ export const ItemInput: React.FC = () => {
 
   return (
     <form onSubmit={submitCreateItem} className="flex items-center">
-      <i className="w-4 h-4 inline-block mr-2" />
+      <PlusIcon className="w-4 h-4 inline-block mr-2" />
       <label htmlFor="new-item" className="sr-only">
         Add a new item
       </label>

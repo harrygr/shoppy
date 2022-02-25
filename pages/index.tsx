@@ -1,12 +1,11 @@
 import { ShoppingItem } from "@prisma/client";
 import type { GetServerSideProps, NextPage } from "next";
-import Head from "next/head";
 
 import React from "react";
-import { ItemInput } from "../components/ItemInput";
-import { ItemListItem } from "../components/ItemListItem";
+import { EELogo } from "../components/EELogo";
+
+import { ShoppingList } from "../components/ShoppingList";
 import { db } from "../lib/db";
-import styles from "../styles/Home.module.css";
 
 interface ServerProps {
   items: Pick<ShoppingItem, "id" | "name" | "completed">[];
@@ -18,32 +17,18 @@ export const getServerSideProps: GetServerSideProps<ServerProps> = async () => {
     select: { id: true, name: true, completed: true },
   });
 
-  return {
-    props: {
-      items,
-    },
-  };
+  return { props: { items } };
 };
 
 const Home: NextPage<ServerProps> = ({ items }) => {
   return (
-    <div className={styles.container}>
-      <Head>
-        <title>Shoppy</title>
-
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
-      <main className={styles.main}>
-        <h1 className={styles.title}>Shoppy</h1>
-
-        <ul>
-          {items.map((item) => (
-            <ItemListItem item={item} key={item.id} />
-          ))}
-        </ul>
-
-        <ItemInput />
+    <div className="container mx-auto py-8 px-6">
+      <header className="mb-4 flex justify-between">
+        <h1 className="text-3xl font-semibold">Shoppy</h1>
+        <EELogo className="fill-blue-500 w-28" />
+      </header>
+      <main>
+        <ShoppingList items={items} />
       </main>
     </div>
   );
