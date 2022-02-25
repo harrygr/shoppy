@@ -14,7 +14,7 @@ interface ServerProps {
 
 export const getServerSideProps: GetServerSideProps<ServerProps> = async () => {
   const items = await db.shoppingItem.findMany({
-    orderBy: { createdAt: "desc" },
+    orderBy: { createdAt: "asc" },
     select: { id: true, name: true, completed: true },
   });
 

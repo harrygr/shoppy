@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "export $(cat .env.test | xargs) && prisma db push && jest"
+    "test": "export $(cat .env.test | xargs) && prisma migrate deploy && jest"
   },
   "dependencies": {
     "@prisma/client": "^3.10.0",
