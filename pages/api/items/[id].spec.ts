@@ -16,9 +16,7 @@ describe("PUT api/items/:id", () => {
       method: "PUT",
       path: `/api/items/${item.id}`,
       query: { id: item.id },
-      body: {
-        completed: true,
-      },
+      body: { completed: true },
     });
     await handler(req, res);
 
@@ -43,9 +41,7 @@ describe("PUT api/items/:id", () => {
       method: "PUT",
       path: `/api/items/${item.id}`,
       query: { id: item.id },
-      body: {
-        completed: "true",
-      },
+      body: { completed: "true" },
     });
     await handler(req, res);
 
@@ -59,6 +55,21 @@ describe("PUT api/items/:id", () => {
     expect(await db.shoppingItem.findFirst({ where: { id: item.id } })).toEqual(
       expect.objectContaining({ name: "Avocados", completed: false })
     );
+  });
+
+  it("responds with an error if no item exists", async () => {
+    const { req, res } = createMocks({
+      method: "PUT",
+      path: "/api/items/not-a-real-id",
+      query: { id: "not-a-real-id" },
+      body: { completed: true },
+    });
+    await handler(req, res);
+
+    expect(res._getStatusCode()).toBe(400);
+
+    const responseBody = res._getJSONData();
+    expect(responseBody.errors).toEqual(["Record to update not found."]);
   });
 });
 
@@ -78,5 +89,16 @@ describe("DELETE api/items/:id", () => {
     expect(res._getStatusCode()).toBe(200);
 
     expect(await db.shoppingItem.count({ where: { id: item.id } })).toBe(0);
+  });
+
+  it("responds with a error if the item does not exist", async () => {
+    const { req, res } = createMocks({
+      method: "DELETE",
+      path: `/api/items/not-a-real-id`,
+      query: { id: "not-a-real-id" },
+    });
+    await handler(req, res);
+
+    expect(res._getStatusCode()).toBe(400);
   });
 });
